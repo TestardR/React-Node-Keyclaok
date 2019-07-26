@@ -7,17 +7,17 @@ import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
 
 //keycloak init options
-let initOptions = {
+/* let initOptions = {
   url: "http://localhost:8080/auth",
-  realm: "TEST",
-  clientId: "FrontEnd",
+  realm: "test",
+  clientId: "Front",
   onLoad: "login-required"
-};
+}; */
 
-let keycloak = Keycloak(initOptions);
+let keycloak = new Keycloak("/keycloak.json");
 
 keycloak
-  .init({ onLoad: initOptions.onLoad })
+  .init({ onLoad: "login-required" })
   .success(auth => {
     if (!auth) {
       window.location.reload();
@@ -26,7 +26,10 @@ keycloak
     }
     axios.defaults.headers.common["Authorization"] = `Bearer ${keycloak.token}`;
     //React Render
-    ReactDOM.render(<App />, document.getElementById("root"));
+    ReactDOM.render(
+      <App keycloak={keycloak} />,
+      document.getElementById("root")
+    );
 
     localStorage.setItem("react-token", keycloak.token);
     localStorage.setItem("react-refresh-token", keycloak.refreshToken);

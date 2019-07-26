@@ -1,0 +1,10 @@
+{
+  "roles": {
+    "production": {
+      "admin": "console-admin"
+    },
+    "development": {
+      "admin": "realm:admin"
+    }
+  }
+}

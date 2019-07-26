@@ -2,6 +2,7 @@ const express = require("express");
 const Keycloak = require("keycloak-connect");
 const session = require("express-session");
 const cors = require("cors");
+const config = require("config");
 
 const app = express();
 
@@ -28,15 +29,23 @@ app.get("/public", function(req, res) {
   res.json({ message: "Hello from public API" });
 });
 
-// Simple authentication
+// Simple authorization
 app.get("/private", keycloak.protect(), function(req, res) {
   try {
-    res.json({ message: "Test of the protected route" });
+    res.json({ message: "Test of a private route" });
   } catch (error) {
     console.log(error);
   }
 });
 
+// Advanced authorization with roles
+app.get(
+  "/protected",
+  keycloak.protect(config.roles.development.admin),
+  function(req, res) {
+    res.json({ message: "Hello from a protected route" });
+  }
+);
 app.listen(5000, function() {
   console.log("Listening at http://localhost:5000");
 });
