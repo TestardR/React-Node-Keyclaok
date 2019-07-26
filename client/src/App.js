@@ -1,7 +1,8 @@
 import React from "react";
 import "./App.css";
 import Private from "./components/Private";
-import Admin from "./components/Admin";
+import AdminRealm from "./components/AdminRealm";
+import AdminClient from "./components/AdminClient";
 
 function App({ keycloak }) {
   const logout = () => {
@@ -12,7 +13,8 @@ function App({ keycloak }) {
     <div className="App">
       Hello KeyClaok
       <Private />
-      <Admin />
+      <AdminRealm />
+      <AdminClient />
       <button onClick={logout}>Logout</button>
     </div>
   );
